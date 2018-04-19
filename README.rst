@@ -21,7 +21,8 @@ How to run
 ----------
 
 .. code:: shell
-    https://github.com/jspaezp/flask-db-sample
+
+    git clone https://github.com/jspaezp/flask-db-sample
     pip install Flask
     set FLASK_APP=views.py
     set FLASK_DEBUG=1
