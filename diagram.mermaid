@@ -1,0 +1,25 @@
+sequenceDiagram
+    participant Python.Base
+    participant Python.Flask
+    participant JS
+    participant HTML
+    participant User
+    Python.Flask->>HTML: Flask initializes the html and fills the templates
+    note over Python.Flask, HTML: {% for entry in database %} in the HTML for instance.
+    HTML->>User: The page is served to the user in the browser
+    User->>HTML: The user interacts with the page.
+    note over HTML, User: Changing the Option 1 section
+    HTML->>JS: JS detects the interaction made by the user (selecting a menu)
+    note over HTML, JS: Changing the option runs the function under the onChange attribute
+    note over HTML, JS: JS processes the function, gets the input value ` document.getElementById("firstoptions")` ...
+    note over HTML, Python.Flask: Build the query and sends it with ajax, as a json. `{ "firstoptions":	"Opt2" }`
+    JS->>Python.Flask: JS passes a POST request to the server.
+    note over JS, Python.Flask: By using the ` secondoptions ` method, which is an exposed python function
+    note over Python.Base, Python.Flask: Internally parses the request and computes over it.
+    note over Python.Base, Python.Flask: Runs the secondoptions function, which gets the passed data by using ` request.form.get('firstoptions') `
+    Python.Flask->>JS: Sends the results of the request. Another JSON file
+    note over Python.Flask, JS: ` {"options":[10,20,30,40]}​ `
+    note over JS: JS read the given data and processes it ` .done(getSecondShow) `
+    JS->>HTML: JS modifies the HTML to change the webpage based on the results.
+    note over JS, HTML:  $(...).append($('<option></option>').val(p).html(p))
+    HTML->>User: New content is seen.

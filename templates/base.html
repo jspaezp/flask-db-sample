@@ -1,0 +1,57 @@
+<!doctype html>
+
+<title>JavaScript Example</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+
+  // Thus Function gets the element chosen and passes it to the request (seondoptions in python)
+
+  function secondOptionsSubmit() {
+    var firstopt = document.getElementById("firstoptions");
+    firstopt = firstopt.options[firstopt.selectedIndex].value ;
+    $.ajax({
+      method: 'POST',
+      url: {{ url_for('secondoptions')|tojson }},
+      data: {firstoptions:firstopt}
+    }).done(getSecondShow);
+  }
+
+  function getSecondShow(data) {
+    $('#secondopt').empty();
+    $.each(data.options, function(i, p) {
+      $('#secondopt').append($('<option></option>').val(p).html(p));
+  });
+  }
+</script>
+<link rel="stylesheet" href="https://unpkg.com/sakura.css@1.0.0/css/normalize.css">
+<link rel="stylesheet" href="https://unpkg.com/sakura.css@1.0.0/css/sakura-earthly.css">
+<style>
+  ul { margin: 0; padding: 0; display: flex; list-style-type: none; }
+  li > * { padding: 1em; }
+  li.active > a { color: #5e5e5e; border-bottom: 2px solid #4a4a4a; }
+  form { display: flex; }
+  label > input { width: 3em; }
+  form > * { padding-right: 1em; }
+  #result { font-weight: bold; }
+</style>
+<hr>
+
+
+<h1>Dependent Menus</h1>
+<h2>Option 1</h2>
+
+<p>The option onChange="secondOptionsSubmit()" calls the function whenever this changes</p>
+
+<select id="firstoptions" onChange="secondOptionsSubmit()">
+  {% for entry in database %}
+      <option value="{{  entry  }}">{{ entry }}</option>
+  {% endfor %}
+</select>
+
+<h2>Option 2</h2>
+<select id="secondopt">
+  {% for s_option in second_options %}
+      <option value="{{  s_option  }}">{{ s_option }}</option>
+  {% endfor %}
+</select>
+
