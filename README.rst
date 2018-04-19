@@ -12,3 +12,14 @@ Here is a little explaination of the flow of data that happens (using the amazin
 
 .. image:: diagram.mermaid.png
    :align: center
+
+
+How to run
+----------
+
+.. code:: shell
+    https://github.com/jspaezp/flask-db-sample
+    pip install Flask
+    FLASK_APP=views.py
+    flask run
+
